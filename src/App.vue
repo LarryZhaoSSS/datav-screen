@@ -50,7 +50,10 @@
       </loading>
     </div>
     <div class="container">
-      <fly-box />
+      <fly-box>
+        <div>1111</div>
+        <div>2222</div>
+      </fly-box>
     </div>
     <div id="nav">
       <router-link to="/">Home</router-link>|
