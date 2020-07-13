@@ -11,7 +11,14 @@
     </div>
     <div class="container">
       <svg width="440" height="440" viewBox="0 0 440 440">
-        <circle cx="220" cy="220" r="200" stroke-width="20" stroke="#d1d3d7" fill="transparent" />
+        <circle
+          cx="220"
+          cy="220"
+          r="200"
+          stroke-width="20"
+          stroke="#d1d3d7"
+          fill="transparent"
+        />
         <circle
           class="circle"
           cx="220"
@@ -49,7 +56,13 @@
         <div>内容加载中...</div>
       </loading>
     </div>
-    <div class="container">
+    <div class="container" style="width:50%;background:#333">
+      <fly-box>
+        <div>1111</div>
+        <div>2222</div>
+      </fly-box>
+    </div>
+    <div class="container" style="width:70%;background:#333">
       <fly-box>
         <div>1111</div>
         <div>2222</div>

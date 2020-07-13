@@ -2,19 +2,41 @@
   <div class="fly-box" :ref="refName">
     <svg :width="width" :height="height">
       <defs>
-        <path id="fly-box-path" :d="path" fill="none" />
-        <radialGradient id="radial-gradient" cx="50%" cy="50%" fx="100%" fy="50%" r="50%">
+        <path :id="pathId" :d="path" fill="none" />
+        <radialGradient
+          :id="radialGradientId"
+          cx="50%"
+          cy="50%"
+          fx="100%"
+          fy="50%"
+          r="50%"
+        >
           <stop offset="0%" stop-color="#fff" stop-opacity="1" />
           <stop offset="100%" stop-color="#fff" stop-opacity="0" />
         </radialGradient>
-        <mask id="fly-box-mask">
-          <circle :r="starLength" cx="0" cy="0" fill="url(#radial-gradient)">
-            <animateMotion dur="3s" :path="path" rotate="auto" repeatCount="indefinite" />
+        <mask :id="maskId">
+          <circle
+            :r="starLength"
+            cx="0"
+            cy="0"
+            :fill="`url(#${radialGradientId})`"
+          >
+            <animateMotion
+              :dur="`${+duration}s`"
+              :path="path"
+              rotate="auto"
+              repeatCount="indefinite"
+            />
           </circle>
         </mask>
       </defs>
-      <use href="#fly-box-path" stroke-width="1" :stroke="lineColor" />
-      <use href="#fly-box-path" stroke-width="3" :stroke="starColor" mask="url(#fly-box-mask)" />
+      <use :href="`#${pathId}`" stroke-width="1" :stroke="lineColor" />
+      <use
+        :href="`#${pathId}`"
+        stroke-width="3"
+        :stroke="starColor"
+        :mask="`url(#${maskId})`"
+      />
     </svg>
     <div class="fly-box-content">
       <slot></slot>
@@ -24,6 +46,7 @@
 
 <script>
 import { ref, onMounted, getCurrentInstance, computed } from "vue";
+import { v4 as uuidv4 } from "uuid";
 export default {
   name: "fly-box",
   props: {
@@ -38,12 +61,20 @@ export default {
     starLength: {
       type: [String, Number],
       default: 50
+    },
+    duration: {
+      type: [String, Number],
+      default: 2
     }
   },
   setup(ctx) {
+    const uuid = uuidv4();
     const width = ref(0);
     const height = ref(0);
     const refName = "fly-box";
+    const pathId = `${refName}-path-${uuid}`;
+    const radialGradientId = `${refName}-gradient-${uuid}`;
+    const maskId = `${refName}-mask-${uuid}`;
     const path = computed(
       () =>
         `M5 5 L${width.value - 5} 5 L${width.value - 5} ${height.value -
@@ -64,7 +95,10 @@ export default {
       width,
       height,
       refName,
-      path
+      path,
+      pathId,
+      radialGradientId,
+      maskId
     };
   }
 };
