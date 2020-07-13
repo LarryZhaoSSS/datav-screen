@@ -49,6 +49,9 @@
         <div>内容加载中...</div>
       </loading>
     </div>
+    <div class="container">
+      <fly-box />
+    </div>
     <div id="nav">
       <router-link to="/">Home</router-link>|
       <router-link to="/about">About</router-link>
@@ -59,9 +62,11 @@
 <script>
 import { reactive, computed, onMounted } from "vue";
 import Loading from "@/components/loading/Loading";
+import FlyBox from "@/components/fly-box/FlyBox";
 export default {
   components: {
-    Loading
+    Loading,
+    FlyBox
   },
   setup() {
     onMounted(() => {
