@@ -14,6 +14,7 @@ module.exports = {
     "space-before-function-paren": "off",
     semi: "off",
     "no-unused-vars": "off",
-    quotes: "off"
+    quotes: "off",
+    "eol-last": "off"
   }
 };
