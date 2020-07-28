@@ -1,5 +1,5 @@
 <template>
-  <div class="loading">
+  <div class="my-loading">
     <svg :width="width" :height="height" viewBox="0 0 50 50" preserveAspectRatio="xMinYMid meet">
       <circle
         cx="25"
@@ -98,4 +98,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.my-loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 </style>
