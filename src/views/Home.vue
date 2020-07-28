@@ -10,7 +10,13 @@
       <div class="separator"></div>
       <div class="center">
         <div class="left">
-          <div class="left1">left1</div>
+          <div class="left1">
+            <total-user
+              :today-user="todayUser"
+              :growth-last-day="growthLastDay"
+              :growth-last-month="growthLastMonth"
+            ></total-user>
+          </div>
           <div class="left2">left2</div>
           <div class="left3">left3</div>
           <div class="left4">left4</div>
@@ -39,15 +45,18 @@
 </template>
 
 <script>
+import useScreenData from "@/hooks/useScreenData";
 import { ref, onMounted } from "vue";
 import ILoading from "@/components/loading/Loading";
 import Container from "@/components/container/Container";
 import TopHeader from "@/components/top-header/top-header";
+import TotalUser from "@/components/total-user/total-user";
 export default {
   components: {
     ILoading,
     Container,
-    TopHeader
+    TopHeader,
+    TotalUser
   },
   setup() {
     const loading = ref(true);
@@ -57,7 +66,8 @@ export default {
       }, 1000);
     });
     return {
-      loading
+      loading,
+      ...useScreenData()
     };
   }
 };
@@ -89,7 +99,7 @@ export default {
     .separator {
       width: 100%;
       height: 10px;
-      background: #000;
+      background: rgba(92, 88, 89);
     }
     .center {
       width: 100%;
