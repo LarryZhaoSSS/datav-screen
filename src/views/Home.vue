@@ -3,7 +3,7 @@
     <i-loading v-if="loading">
       <div class="loading-text">数据大屏加载中...</div>
     </i-loading>
-    <container :options="{width:3840,height:2160}" v-else>
+    <container :options="{ width: 3840, height: 2160 }" v-else>
       <div class="header">
         <top-header></top-header>
       </div>
@@ -20,8 +20,8 @@
           <div class="left2">
             <average-age :data="ageData" :avg-age="averageAge" />
           </div>
-          <div class="left3">left3</div>
-          <div class="left4">left4</div>
+          <div class="left3"><total-devices :data="deviceData" /></div>
+          <div class="left4"><total-gender :data="genderData" /></div>
           <div class="left5">left5</div>
           <div class="left6">left6</div>
         </div>
@@ -54,7 +54,8 @@ import Container from "@/components/container/Container";
 import TopHeader from "@/components/top-header/top-header";
 import TotalUser from "@/components/total-user/total-user";
 import AverageAge from "@/components/average-age/average-age";
-
+import TotalDevices from "@/components/total-devices/total-devices";
+import TotalGender from "@/components/total-gender/total-gender";
 export default {
   components: {
     ILoading,
@@ -62,6 +63,8 @@ export default {
     TopHeader,
     TotalUser,
     AverageAge,
+    TotalDevices,
+    TotalGender
   },
 
   setup() {
@@ -73,12 +76,12 @@ export default {
     });
     return {
       loading,
-      ...useScreenData(),
+      ...useScreenData()
     };
-  },
+  }
 };
 </script>
-<style lang='scss'>
+<style lang="scss">
 .home {
   position: relative;
   display: flex;
@@ -218,5 +221,4 @@ export default {
   }
 }
 </style>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

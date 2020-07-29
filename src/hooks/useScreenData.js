@@ -5,6 +5,19 @@ const ageMockData = [
   { startValue: 0, value: 551238, axis: "30-50", color: "rgb(202,252,137)" },
   { startValue: 0, value: 31088, axis: ">50", color: "rgb(251,253,142)" }
 ];
+const deviceMockData = {
+  totalDevices: 1070909,
+  devices: [
+    { key: "Android", value: 423676 },
+    { key: "iOS", value: 373581 },
+    { key: "PC", value: 273652 }
+  ]
+};
+const genderMockData = [
+  { key: "male", value: 1442542 },
+  { key: "female", value: 1442548 }
+];
+
 function random(val) {
   return Math.floor(Math.random() * val);
 }
@@ -14,6 +27,9 @@ export default function() {
   const growthLastMonth = ref(15);
   const ageData = ref(ageMockData);
   const averageAge = ref(0);
+  const deviceData = ref(deviceMockData);
+  const genderData = ref(genderMockData);
+
   let task;
   onMounted(() => {
     task = setInterval(() => {
@@ -27,6 +43,17 @@ export default function() {
         item.value = item.value + random(100);
       });
       ageData.value = _ageData;
+      const _deviceData = { ...deviceData.value };
+      _deviceData.totalDevices += random(100);
+      _deviceData.devices.forEach(item => {
+        item.value += random(100);
+      });
+      deviceData.value = _deviceData;
+      const _genderData = [...genderData.value];
+      _genderData.forEach(item => {
+        item.value += random(100);
+      });
+      genderData.value = _genderData;
     }, 1000);
   });
   onUnmounted(() => {
@@ -37,6 +64,8 @@ export default function() {
     growthLastDay,
     growthLastMonth,
     averageAge,
-    ageData
+    ageData,
+    deviceData,
+    genderData
   };
 }
