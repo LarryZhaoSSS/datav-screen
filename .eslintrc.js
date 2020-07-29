@@ -15,6 +15,7 @@ module.exports = {
     semi: "off",
     "no-unused-vars": "off",
     quotes: "off",
-    "eol-last": "off"
+    "eol-last": "off",
+    "comma-dangle": "off"
   }
 };

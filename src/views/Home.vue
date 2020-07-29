@@ -17,7 +17,9 @@
               :growth-last-month="growthLastMonth"
             ></total-user>
           </div>
-          <div class="left2">left2</div>
+          <div class="left2">
+            <average-age :data="ageData" :avg-age="averageAge" />
+          </div>
           <div class="left3">left3</div>
           <div class="left4">left4</div>
           <div class="left5">left5</div>
@@ -51,13 +53,17 @@ import ILoading from "@/components/loading/Loading";
 import Container from "@/components/container/Container";
 import TopHeader from "@/components/top-header/top-header";
 import TotalUser from "@/components/total-user/total-user";
+import AverageAge from "@/components/average-age/average-age";
+
 export default {
   components: {
     ILoading,
     Container,
     TopHeader,
-    TotalUser
+    TotalUser,
+    AverageAge,
   },
+
   setup() {
     const loading = ref(true);
     onMounted(() => {
@@ -67,9 +73,9 @@ export default {
     });
     return {
       loading,
-      ...useScreenData()
+      ...useScreenData(),
     };
-  }
+  },
 };
 </script>
 <style lang='scss'>
