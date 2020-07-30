@@ -20,10 +20,18 @@
           <div class="left2">
             <average-age :data="ageData" :avg-age="averageAge" />
           </div>
-          <div class="left3"><total-devices :data="deviceData" /></div>
-          <div class="left4"><total-gender :data="genderData" /></div>
-          <div class="left5">left5</div>
-          <div class="left6">left6</div>
+          <div class="left3">
+            <total-devices :data="deviceData" />
+          </div>
+          <div class="left4">
+            <total-gender :data="genderData" />
+          </div>
+          <div class="left5">
+            <total-rider :data="riderData"></total-rider>
+          </div>
+          <div class="left6">
+            <hot-category :data="hotCategoryData"></hot-category>
+          </div>
         </div>
         <div class="right">
           <div class="right-top1">top1</div>
@@ -56,6 +64,8 @@ import TotalUser from "@/components/total-user/total-user";
 import AverageAge from "@/components/average-age/average-age";
 import TotalDevices from "@/components/total-devices/total-devices";
 import TotalGender from "@/components/total-gender/total-gender";
+import TotalRider from "@/components/total-rider/total-rider";
+import HotCategory from "@/components/hot-category/hot-category";
 export default {
   components: {
     ILoading,
@@ -64,7 +74,9 @@ export default {
     TotalUser,
     AverageAge,
     TotalDevices,
-    TotalGender
+    TotalGender,
+    TotalRider,
+    HotCategory,
   },
 
   setup() {
@@ -76,9 +88,9 @@ export default {
     });
     return {
       loading,
-      ...useScreenData()
+      ...useScreenData(),
     };
-  }
+  },
 };
 </script>
 <style lang="scss">
