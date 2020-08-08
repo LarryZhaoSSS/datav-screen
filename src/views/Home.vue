@@ -34,12 +34,21 @@
           </div>
         </div>
         <div class="right">
-          <div class="right-top1">top1</div>
-          <div class="right-top2">top2</div>
+          <div class="right-top1">
+            <center-header :data="headerData" />
+          </div>
+          <div class="right-top2">
+            <transform-category :data="['All','北京','上海','广州']"></transform-category>
+          </div>
           <div class="right-bottom">
             <div class="right-left">
               <div class="right-left1">right-left1</div>
-              <div class="right-left2">right-left2</div>
+              <div class="right-left2">
+                <transform-category
+                  :data="['订单量','销售额','用户量','退单量']"
+                  :color="['rgb(178,209,126)','rgb(116,166,49)']"
+                ></transform-category>
+              </div>
               <div class="right-left3">right-left3</div>
               <div class="right-left4">right-left4</div>
             </div>
@@ -66,6 +75,9 @@ import TotalDevices from "@/components/total-devices/total-devices";
 import TotalGender from "@/components/total-gender/total-gender";
 import TotalRider from "@/components/total-rider/total-rider";
 import HotCategory from "@/components/hot-category/hot-category";
+import CenterHeader from "@/components/center-header";
+import TransformCategory from "@/components/transform-category";
+// import BaseScrollList from "@/components/base-scroll-list";
 export default {
   components: {
     ILoading,
@@ -77,6 +89,9 @@ export default {
     TotalGender,
     TotalRider,
     HotCategory,
+    CenterHeader,
+    TransformCategory,
+    // BaseScrollList,
   },
 
   setup() {
@@ -125,7 +140,7 @@ export default {
     .center {
       width: 100%;
       flex: 1;
-      background: rebeccapurple;
+      // background: rebeccapurple;
       display: flex;
       .left {
         flex: 0 0 860px;
@@ -164,9 +179,9 @@ export default {
       }
       .right {
         flex: 1;
-        background: blue;
         display: flex;
         flex-direction: column;
+        margin-left: 10px;
         .right-top1 {
           width: 100%;
           height: 206px;
@@ -176,6 +191,7 @@ export default {
           width: 100%;
           height: 48px;
           background: cadetblue;
+          margin: 10px 0;
         }
         .right-bottom {
           flex: 1;

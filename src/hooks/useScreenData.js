@@ -117,6 +117,54 @@ const hotCategoryMockData = {
     data2: [15, 96, 97, 74, 37, 69, 81]
   }
 };
+const headerMockData = {
+  headerData: {
+    value: [
+      {
+        title: "今日销售额",
+        subTitle: "Today's Sales Amount",
+        startVal: 40041113,
+        endVal: 40105335,
+        img: "https://www.youbaobao.xyz/datav-res/money.png"
+      },
+      {
+        title: "今日订单量",
+        subTitle: "Today's Total Orders",
+        startVal: 2566778,
+        endVal: 2570025,
+        img: "https://www.youbaobao.xyz/datav-res/order.png"
+      },
+      {
+        title: "今日交易用户数",
+        subTitle: "Today's Payed Users",
+        startVal: 271744,
+        endVal: 272200,
+        img: "https://www.youbaobao.xyz/datav-res/member.png"
+      },
+      {
+        title: "今日新增用户数",
+        subTitle: "Today's New Users",
+        startVal: 1286552,
+        endVal: 1289057,
+        img: "https://www.youbaobao.xyz/datav-res/follow.png"
+      }
+    ]
+  },
+  project: {
+    value: [
+      {
+        title: "转化率",
+        value: "13.16%",
+        img: "https://www.youbaobao.xyz/datav-res/success.png"
+      },
+      {
+        title: "退单率",
+        value: "5.73%",
+        img: "https://www.youbaobao.xyz/datav-res/failed.png"
+      }
+    ]
+  }
+};
 
 function random(val) {
   return Math.floor(Math.random() * val);
@@ -131,6 +179,7 @@ export default function() {
   const genderData = ref(genderMockData);
   const riderData = ref(riderMockData);
   const hotCategoryData = ref(hotCategoryMockData);
+  const headerData = ref(headerMockData);
   let task;
   onMounted(() => {
     task = setInterval(() => {
@@ -193,6 +242,7 @@ export default function() {
     deviceData,
     genderData,
     riderData,
-    hotCategoryData
+    hotCategoryData,
+    headerData
   };
 }
