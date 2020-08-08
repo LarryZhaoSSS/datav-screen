@@ -38,7 +38,7 @@ export default {
       headerIndex: true,
       headerHeight: "40",
       data,
-      rowNum: 10,
+      rowNum: 5,
       rowBg,
       aligns,
       headerFontSize,

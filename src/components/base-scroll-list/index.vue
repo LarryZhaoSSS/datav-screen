@@ -2,7 +2,7 @@
   <div class="base-scroll-list" :id="id">
     <div
       class="base-scroll-list-header"
-      :style="{ backgroundColor: `${config.headerBg}`, height: `${config.headerHeight}px`,fontSize:`${actualConfig.headerFontSize}px`,color:actualConfig.headerColor }"
+      :style="{ backgroundColor: `${actualConfig.headerBg}`, height: `${actualConfig.headerHeight}px`,fontSize:`${actualConfig.headerFontSize}px`,color:actualConfig.headerColor }"
     >
       <div
         class="header-item base-scroll-list-text"
@@ -13,20 +13,22 @@
         :align="aligns[i]"
       ></div>
     </div>
-    <div
-      class="base-scroll-list-rows"
-      v-for="(rowData,rowIndex) of rowsData"
-      :key="rowIndex"
-      :style="{height:`${rowHeights[rowIndex]}px`,backgroundColor:rowIndex %2===0?rowBg[1]:rowBg[0],fontSize:`${actualConfig.rowFontSize}px`,color:actualConfig.rowColor}"
-    >
+    <div class="base-scroll-rows-wrapper" :style="{height:`${height-actualConfig.headerHeight}px`}">
       <div
-        class="base-scroll-list-columns"
-        v-for="(colData,colIndex) of rowData"
-        :key="colIndex"
-        :style="{width:`${columnWidths[colIndex]}px`,...rowStyle[colIndex]}"
-        :align="aligns[colIndex]"
-        v-html="colData"
-      ></div>
+        class="base-scroll-list-rows"
+        v-for="(rowData,index) of currentRowsData"
+        :key="index"
+        :style="{height:`${rowHeights[index]}px`,lineHeight:`${rowHeights[index]}px`,backgroundColor:rowData.rowIndex %2===0?rowBg[1]:rowBg[0],fontSize:`${actualConfig.rowFontSize}px`,color:actualConfig.rowColor}"
+      >
+        <div
+          class="base-scroll-list-columns base-scroll-list-text"
+          v-for="(colData,colIndex) of rowData.data"
+          :key="colIndex"
+          :style="{width:`${columnWidths[colIndex]}px`,...rowStyle[colIndex]}"
+          :align="aligns[colIndex]"
+          v-html="colData"
+        ></div>
+      </div>``
     </div>
   </div>
 </template>
@@ -72,13 +74,18 @@ export default {
       headerFontSize: 24,
       rowColor: "#333",
       headerColor: "#666",
+      moveNum: 1, // 滚动的位置
+      duration: 2000,
     };
     const columnWidths = ref([]);
     const rowsData = ref([]);
+    const currentRowsData = ref([]);
+    const currentRowIndex = ref(0);
     const rowBg = ref([]);
     const rowHeights = ref([]);
     const rowNum = ref(defaultConfig.rowNum);
     const aligns = ref([]);
+    let avgHeight;
     const handleHeader = (config) => {
       const _headerData = cloneDeep(config.header);
       const _headerStyle = cloneDeep(config.headerStyle);
@@ -115,6 +122,24 @@ export default {
       headerStyleData.value = _headerStyle;
       rowsData.value = _rowsData;
       rowStyle.value = _rowStyle;
+      const { rowNum } = config;
+      if (_rowsData.length >= rowNum && _rowsData.length < rowNum * 2) {
+        const newRowData = [...rowsData, ...rowsData];
+        rowsData.value = newRowData.map((item, index) => {
+          return {
+            data: item,
+            rowIndex: index,
+          };
+        });
+      } else {
+        rowsData.value = _rowsData.map((item, index) => {
+          return {
+            data: item,
+            rowIndex: index,
+          };
+        });
+      }
+
       aligns.value = _aligns;
     };
     const handleRows = (conifg) => {
@@ -124,12 +149,36 @@ export default {
       if (rowNum.value > rowsData.value.length) {
         rowNum.value = rowsData.value.length;
       }
-      const avgHeight = unusedHeight / rowNum.value;
+      avgHeight = unusedHeight / rowNum.value;
       rowHeights.value = new Array(rowNum.value).fill(avgHeight);
-      console.log(unusedHeight, height, avgHeight);
       if (config.rowBg.length > 0) {
         rowBg.value = config.rowBg;
       }
+    };
+    const startAnimation = async () => {
+      const config = actualConfig.value;
+      const { data, rowNum, duration, moveNum } = config;
+      const totalLength = data.length;
+      if (totalLength < rowNum) {
+        return;
+      }
+      const index = currentRowIndex.value;
+      const _rowsData = cloneDeep(rowsData.value);
+      const rows = _rowsData.slice(index);
+      rows.push(..._rowsData.slice(0, index));
+      currentRowsData.value = rows;
+      rowHeights.value = new Array(totalLength).fill(avgHeight);
+      const waitTime = 300;
+      await new Promise((resolve) => setTimeout(resolve, waitTime));
+
+      rowHeights.value.splice(0, moveNum, new Array(moveNum).fill(0));
+      currentRowIndex.value += moveNum;
+      const isLast = currentRowIndex.value - totalLength;
+      if (isLast >= 0) {
+        currentRowIndex.value = isLast;
+      }
+      await new Promise((resolve) => setTimeout(resolve, duration - waitTime));
+      await startAnimation();
     };
     onMounted(() => {
       const _actualConfig = assign(defaultConfig, config);
@@ -137,6 +186,7 @@ export default {
       handleHeader(_actualConfig);
       handleRows(_actualConfig);
       actualConfig.value = _actualConfig;
+      startAnimation();
     });
     return {
       id,
@@ -149,6 +199,8 @@ export default {
       rowBg,
       aligns,
       actualConfig,
+      currentRowsData,
+      height,
     };
   },
 };
@@ -172,10 +224,14 @@ export default {
   .header-item {
     width: 150px;
   }
-  .base-scroll-list-rows {
-    display: flex;
-    align-items: center;
-    .base-scroll-list-columns {
+  .base-scroll-rows-wrapper {
+    overflow: hidden;
+    .base-scroll-list-rows {
+      display: flex;
+      align-items: center;
+      transition: all 0.3s linear;
+      .base-scroll-list-columns {
+      }
     }
   }
 }
